@@ -23,6 +23,11 @@ func (am UserManager) GetUserByEmail(email string) (model.UserItem, error) {
 
 func (am UserManager) GetUserByID(userID uint) (model.UserItem, error) {
 	var userItems model.UserItem
-
+	tx := am.app.db.DB.First(&userItems, userID)
+	if tx.RecordNotFound() {
+		return model.UserItem{}, gorm.ErrRecordNotFound
+	} else if tx.Error != nil {
+		return model.UserItem{}, tx.Error
+	}
 	return userItems, nil
 }
