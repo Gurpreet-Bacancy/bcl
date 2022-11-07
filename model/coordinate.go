@@ -11,3 +11,9 @@ type Coordinates struct {
 	Longitude float32 `msgp:"longitude" db:"longitude"`
 	Altitude  float32 `msgp:"altitude" db:"altitude"`
 }
+
+type CoordinateStore interface {
+	GetUserLocation(userID uint) (Coordinates, error)
+	AddUserLocation(userID uint, Coordinate Coordinates) error
+	UpdateUserLocation(Coordinate Coordinates) error
+}

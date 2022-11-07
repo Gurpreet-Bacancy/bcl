@@ -9,3 +9,8 @@ type UserItem struct {
 	Name  string `msgp:"name" db:"name"`
 	Email string `msgp:"email" db:"email"`
 }
+
+type UserStore interface {
+	GetUserByEmail(email string) (UserItem, error)
+	GetUserByID(userID uint) (UserItem, error)
+}
