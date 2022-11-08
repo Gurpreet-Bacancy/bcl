@@ -21,7 +21,6 @@ func NewPostgres(dbUrl string) (*Postgres, error) {
 
 // connection with postgres database
 func getDBInstance(dbUrl string) *gorm.DB {
-
 	connection, err := gorm.Open("postgres", dbUrl)
 	if err != nil {
 		log.Fatalln(err)
@@ -58,13 +57,65 @@ func Seeder(dbUrl string) {
 	defer Closedatabase(connection)
 
 	users := []model.UserItem{
-		model.UserItem{
+		{
 			Name:  "Steven victo",
 			Email: "steven@gmail.com",
 		},
-		model.UserItem{
+		{
 			Name:  "Martin Luther",
 			Email: "luther@gmail.com",
+		},
+		{
+			Name:  "Mar",
+			Email: "mar@gmail.com",
+		},
+		{
+			Name:  "tin",
+			Email: "tin@gmail.com",
+		},
+		{
+			Name:  "Lu",
+			Email: "lu@gmail.com",
+		},
+		{
+			Name:  "in",
+			Email: "in@gmail.com",
+		},
+		{
+			Name:  "ther",
+			Email: "ther@gmail.com",
+		},
+		{
+			Name:  "Ste",
+			Email: "Ste@gmail.com",
+		},
+		{
+			Name:  "even",
+			Email: "even@gmail.com",
+		},
+		{
+			Name:  "en",
+			Email: "en@gmail.com",
+		},
+		{
+			Name:  "envi",
+			Email: "envi@gmail.com",
+		},
+		{
+			Name:  "vic",
+			Email: "vic@gmail.com",
+		},
+		{
+			Name:  "venvi",
+			Email: "venvi@gmail.com",
+		},
+		{
+			Name:  "nvicto",
+			Email: "nvicto@gmail.com",
+		},
+		{
+			Name:  "cto",
+			Email: "cto@gmail.com",
 		},
 	}
 

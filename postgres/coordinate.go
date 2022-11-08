@@ -1,6 +1,8 @@
 package postgres
 
 import (
+	"fmt"
+
 	"github.com/Gurpreet-Bacancy/bcl/model"
 	"github.com/jinzhu/gorm"
 )
@@ -43,8 +45,28 @@ func (am CoordinateManager) UpdateUserLocation(id uint, Coordinate model.Coordin
 	return nil
 }
 
-func (am CoordinateManager) GetNearestUsers(Coordinate model.Coordinates, num int) ([]model.UserCoordinateItem, error) {
+func (am CoordinateManager) GetNearestUsers(coordinate model.Coordinates) ([]model.UserCoordinateItem, error) {
 	var userCoordinates []model.UserCoordinateItem
+	query := fmt.Sprintf(`SELECT * , 3956 * 2 * ASIN(SQRT(
+		POWER(SIN((%f - abs(dest.latitude)) * pi()/180 / 2),
+		2) + COS(%f * pi()/180 ) * COS(abs(dest.latitude) *
+		pi()/180) * POWER(SIN((%f - dest.longitude) *
+		pi()/180 / 2), 2) )) as distance
+		FROM coordinates dest
+		where dest.user_id != %d 
+		ORDER BY distance limit 10;`, coordinate.Latitude, coordinate.Latitude, coordinate.Longitude, coordinate.UserID)
+	rows, err := am.app.db.DB.Raw(query).Rows()
+	if err != nil {
+		fmt.Println("Error from get nearest db call", err)
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var userCoordinate model.UserCoordinateItem
+		// ScanRows scan a row into user
+		am.app.db.DB.ScanRows(rows, &userCoordinate)
 
+		// do something
+		userCoordinates = append(userCoordinates, userCoordinate)
+	}
 	return userCoordinates, nil
 }
