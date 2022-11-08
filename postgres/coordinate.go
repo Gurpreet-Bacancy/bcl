@@ -42,3 +42,9 @@ func (am CoordinateManager) UpdateUserLocation(id uint, Coordinate model.Coordin
 
 	return nil
 }
+
+func (am CoordinateManager) GetNearestUsers(Coordinate model.Coordinates, num int) ([]model.UserCoordinateItem, error) {
+	var userCoordinates []model.UserCoordinateItem
+
+	return userCoordinates, nil
+}

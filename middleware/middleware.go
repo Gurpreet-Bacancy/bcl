@@ -4,24 +4,22 @@ import (
 	"crypto/rsa"
 	"fmt"
 
-	"github.com/Gurpreet-Bacancy/bcl/helper"
-	"github.com/gofiber/fiber/v2"
 	jwtware "github.com/gofiber/jwt/v3"
 	"github.com/golang-jwt/jwt/v4"
 )
 
 // check/parse token
-func CustomKeyFunc(c *fiber.Ctx, priateKey *rsa.PrivateKey) jwt.Keyfunc {
+func CustomKeyFunc(priateKey *rsa.PrivateKey) jwt.Keyfunc {
 	return func(t *jwt.Token) (interface{}, error) {
 		// Always check the signing method
 		if t.Method.Alg() != jwtware.RS256 {
 			return nil, fmt.Errorf("unexpected jwt signing method=%v", t.Header["alg"])
 		}
 
-		msgpckHeader := c.Get("content-type")
-		if msgpckHeader != "application/octet-stream" {
-			return nil, helper.HandleError(c, 400, nil, "Invalid messagepack request, Please provide messagepack request")
-		}
+		// msgpckHeader := c.Get("content-type")
+		// if msgpckHeader != "application/octet-stream" {
+		// 	return nil, helper.HandleError(c, 400, nil, "Invalid messagepack request, Please provide messagepack request")
+		// }
 
 		// TODO checking request body type here
 
