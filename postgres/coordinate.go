@@ -52,9 +52,8 @@ func (am CoordinateManager) GetNearestUsers(coordinate model.Coordinates) ([]mod
 		2) + COS(%f * pi()/180 ) * COS(abs(dest.latitude) *
 		pi()/180) * POWER(SIN((%f - dest.longitude) *
 		pi()/180 / 2), 2) )) as distance
-		FROM coordinates dest
-		where dest.user_id != %d 
-		ORDER BY distance limit 10;`, coordinate.Latitude, coordinate.Latitude, coordinate.Longitude, coordinate.UserID)
+		FROM coordinates dest 
+		ORDER BY distance limit 10;`, coordinate.Latitude, coordinate.Latitude, coordinate.Longitude)
 	rows, err := am.app.db.DB.Raw(query).Rows()
 	if err != nil {
 		fmt.Println("Error from get nearest db call", err)

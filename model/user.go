@@ -4,6 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// UserItem struct to describe userItem object.
 type UserItem struct {
 	gorm.Model
 	Name  string `msgp:"name" db:"name"`
